@@ -8,14 +8,42 @@ metadata:
     kubernetes.io/tls-acme: “true”
 spec:
   rules:
-  - host: test.columbusecosystem.com
+  - host: authentication.columbusecosystem.com
     http:
-      paths:
+      paths: 
       - path: /
         backend:
-          serviceName: my-service
+          serviceName: authentication
+          servicePort: 8000
+  - host: api.cdrive.columbusecosystem.com
+    http:
+      paths: 
+      - path: /
+        backend:
+          serviceName: cdrive
+          servicePort: 8000
+  - host: cdrive.columbusecosystem.com
+    http:
+      paths: 
+      - path: /
+        backend:
+          serviceName: cdrive-ui
+          servicePort: 80
+  - host: value-normalizer.columbusecosystem.com
+    http:
+      paths: 
+      - path: /api/value_normalizer
+        backend:
+          serviceName: value-normalizer
           servicePort: 8080
+      - path: /
+        backend:
+          serviceName: normalizer-ui
+          servicePort: 80
   tls:
   - secretName: tls-staging-cert
     hosts:
-    - test.columbusecosystem.com
+    - authentication.columbusecosystem.com
+    - api.cdrive.columbusecosystem.com
+    - cdrive.columbusecosystem.com
+    - value-normalizer.columbusecosystem.com
